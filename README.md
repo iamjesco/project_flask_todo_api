@@ -28,7 +28,8 @@ Content-Type: application/json
 {
     "pk": "integerS",
     "body": "string",
-    "created": "datetime"
+    "created": "datetime",
+    "updated": "datetime"
 }
 ```
 
@@ -66,7 +67,8 @@ Content-Type: application/json
 {
     "pk": "integer",
     "body": "string",
-    "created": "datetime"
+    "created": "datetime",
+    "updated": "datetime"
 }
 ```
 
@@ -87,7 +89,8 @@ Content-Type: application/json
 {
     "pk": 1,
     "body": "string",
-    "created": "datetime"
+    "created": "datetime",
+    "updated": "datetime"
 }
 ```
 
