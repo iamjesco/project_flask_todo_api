@@ -4,10 +4,6 @@ from flask_marshmallow import Marshmallow
 
 
 app = Flask(__name__)
-
-# app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://uwafirnvixshel:d8de744e88ec334215421025b7b8e74d706ca281871c3ab61eac46e22ba9a282@ec2-18-210-64-223.compute-1.amazonaws.com:5432/d7qlndanc1jvtm"
-
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.db'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # Suppress the flask dictionary keys sorting and forces to respect the defined schema order.
@@ -33,8 +29,9 @@ def get_todos():
 
 @app.post('/api/todos/')
 def add_todo():
+	data = request.json
 	payload = Todos(
-		body=request.json.get('body'),
+		body=data.get('body'),
 	)
 	db.session.add(payload)
 	db.session.commit()
@@ -45,6 +42,16 @@ def add_todo():
 def get_todo(pk):
 	response = todo_schema.jsonify(Todos.query.get_or_404(pk))
 	return response, 200
+
+
+@app.patch('/api/todos/<int:pk>')
+def update_todo(pk):
+	payload = request.json
+	query = Todos.query.get_or_404(pk)
+	if 'body' in payload:
+		query.body = payload.get('body')
+	db.session.commit()
+	return todo_schema.jsonify(query), 200
 
 
 @app.delete('/api/todos/<int:pk>')
